@@ -5,7 +5,7 @@ import json
 import time
 from datetime import date, timedelta
 
-COVID_INFECTION_PERIOD = 17
+COVID_INFECTION_PERIOD = 15
 BASE = "https://data.nsw.gov.au/data"
 RESOURCE = '/api/3/action/datastore_search?resource_id=21304414-1ff1-4243-a5d2-f52778048b29'
 LGA_FILE = "lga_dict.json"
@@ -43,7 +43,7 @@ def casesActiveNSW():
 # List of LGA's and their codes can be found in lga.json
 # Based on the time period of COVID_INFECTION_PERIOD
 # Using the NSW health API
-def covidActivePerLGA(lga_code: int) -> int:
+def casesActivePerLGA(lga_code: int) -> int:
     today = date.today()
     past = today - timedelta(days=COVID_INFECTION_PERIOD)
     iter_past = past
@@ -72,5 +72,8 @@ def covidActivePerLGA(lga_code: int) -> int:
 
 
 if __name__ == "__main__":
-    # print(casesActiveNSW())
-    print(covidActivePerLGA(12850))
+    f = open("lga.json")
+    lga = json.load(f)
+    for area in lga:
+        count = casesActivePerLGA(area[LGA_CODE])
+        print(f"Active cases in {area[LGA_NAME]}: {count}")
