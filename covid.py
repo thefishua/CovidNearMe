@@ -12,6 +12,9 @@ LGA_FILE = "lga_dict.json"
 LGA_NAME = "LGA_NAME19"
 LGA_CODE = "LGA_CODE19"
 
+# This function calculates the amount of active covid cases in NSW
+# Based on the time period of COVID_INFECTION_PERIOD
+# Using the NSW health API
 def casesActiveNSW():
     today = date.today()
     past = today - timedelta(days=COVID_INFECTION_PERIOD)
@@ -35,10 +38,12 @@ def casesActiveNSW():
 
     return cases
 
-
+# This function calculates the amount of active covid cases in NSW
+# Specific to an local government area
+# List of LGA's and their codes can be found in lga.json
+# Based on the time period of COVID_INFECTION_PERIOD
+# Using the NSW health API
 def covidActivePerLGA(lga_code: int) -> int:
-    f = open(LGA_FILE, "r")
-    lga_list = json.load(f)
     today = date.today()
     past = today - timedelta(days=COVID_INFECTION_PERIOD)
     iter_past = past
