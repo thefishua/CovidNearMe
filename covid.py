@@ -1,4 +1,5 @@
-import urllib.request as url
+import urllib.request as request
+import urllib.parse as parse
 import ssl
 import json
 import time
@@ -23,7 +24,7 @@ def casesActiveNSW():
         yelp = "&filters={\"notification_date\":\"" + str(past) + "\"}"
         ulocation = location + yelp
         # print(ulocation)
-        obj = url.urlopen(ulocation, context = s_context)
+        obj = request.urlopen(ulocation, context = s_context)
         data = json.load(obj)
         if data['success']:
             # print(data['result']['total'])
@@ -35,35 +36,36 @@ def casesActiveNSW():
     return cases
 
 
-def covidActivePerLGA():
+def covidActivePerLGA(lga_code: int) -> int:
     f = open(LGA_FILE, "r")
     lga_list = json.load(f)
     today = date.today()
     past = today - timedelta(days=COVID_INFECTION_PERIOD)
+    iter_past = past
     location = BASE + RESOURCE
     s_context = ssl.SSLContext()
     cases = 0
-    for i in lga_list:
-        while past != today:
-            # print(past)
-            yelp = "&filters={\"notification_date\":\"" + str(past) + "\","
-            yelp += "\"lga_code19:" + str(i[LGA_CODE]) + "\"}"
-            ulocation = location + yelp
-            # print(ulocation)
-            obj = url.urlopen(ulocation, context = s_context)
-            data = json.load(obj)
-            if data['success']:
-                # print(data['result']['total'])
-                cases = cases + int(data["result"]["total"])
+    while iter_past != today:
+        query = "{\"notification_date\":\"" + str(iter_past)
+        query += "\",\"lga_code19\":\"" + str(lga_code) + "\"}"
+        yelp = f"&filters={query}"
+        # print(yelp)
+        ulocation = location + yelp
+        # print(ulocation)
+        obj = request.urlopen(ulocation, context = s_context)
+        data = json.load(obj)
+        if data['success']:
+            # print(data['result']['total'])
+            cases += int(data["result"]["total"])
                 
             # print(data)
-            past = past + timedelta(days=1)
-        print("Current Active Cases in " + i[LGA_NAME] + ": " + str(cases))
+        iter_past = iter_past + timedelta(days=1)
+    return cases       
 
         
     
 
 
 if __name__ == "__main__":
-    print(casesActiveNSW())
-    covidActivePerLGA()
+    # print(casesActiveNSW())
+    print(covidActivePerLGA(12850))
