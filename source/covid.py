@@ -13,6 +13,9 @@ RESOURCE_SQL = "/api/3/action/datastore_search_sql?sql="
 LGA_FILE = "lga_dict.json"
 LGA_NAME = "LGA_NAME19"
 LGA_CODE = "LGA_CODE19"
+POSTCODE_NAME = "place_name"
+POSTCODE = "postcode"
+
 
 # This function calculates the amount of active covid cases in NSW
 # Based on the time period of COVID_INFECTION_PERIOD
@@ -40,8 +43,8 @@ def casesActiveNSW():
 
     return cases
        
-# This function calculates the amount of active covid cases in NSW
-# Specific to an local government area
+# This function calculates the amount of active covid cases in a
+# specific to an local government area
 # List of LGA's and their codes can be found in lga.json
 # Based on the time period of COVID_INFECTION_PERIOD
 # Using the NSW health API
@@ -64,12 +67,34 @@ def casesActivePerLGA(lga_code: int) -> int:
             
         # print(data)
     return cases        
-    
+
+def casesActivePerPostcode(postcode: int) -> int:
+    today = date.today()
+    past = today - timedelta(days=COVID_INFECTION_PERIOD)
+    location = BASE + RESOURCE_SQL
+    s_context = ssl.SSLContext()
+    cases = 0
+    query = f"SELECT+*+from+\"{RESOURCE_CODE}\"+WHERE+postcode+LIKE+\'{postcode}\'+"
+    query += f"AND+notification_date+BETWEEN+\'{past}\'+AND+\'{today}\'"
+    # print(yelp)
+    ulocation = location + query
+    # print(ulocation)
+    obj = request.urlopen(ulocation, context = s_context)
+    data = json.load(obj)
+    if data['success']:
+        # print(data['result']['total'])
+        cases += len(data["result"]["records"])
+            
+        # print(data)
+    return cases        
 
 
-if __name__ == "__main__":
-    f = open("lga.json")
-    lga = json.load(f)
-    for area in lga:
-        count = casesActivePerLGA(area[LGA_CODE])
-        print(f"Active cases in {area[LGA_NAME]}: {count}")
+
+
+# if __name__ == "__main__":
+#     print(casesActivePerPostcode(2165))
+    # f = open("./data/nsw_postcodes.json")
+    # postcodes = json.load(f)
+    # for area in postcodes:
+    #     count = casesActivePerLGA(area[POSTCODE])
+    #     print(f"Active cases in {area[POSTCODE_NAME]}: {count}")
