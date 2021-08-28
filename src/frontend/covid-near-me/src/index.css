@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#map {
+  position:absolute; 
+  top:0; 
+  bottom:0; 
+  width:100%
+}
+
+.caution-btn {
+  position: absolute;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.caution-btn img {
+  width: 40px;
+  height: 40px;
+}
