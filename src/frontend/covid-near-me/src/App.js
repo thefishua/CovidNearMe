@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl"
 import * as lga from "./data/nsw_lga.json"
 export default function App() {
+    // The view of the user for when they use the mapbox
     const [viewport, setViewport] = useState({
         // Default view for the map marked at Sydney
         // Below is the coordinates with 100% view and a zoom of 10
@@ -12,6 +13,8 @@ export default function App() {
         height: '100vh',
         zoom: 10
     });
+    // The Marker that is selected by the user 
+    // Is set to false and then true when in use
     const [selectedMarker, setSelectedMarker] = useState(null);
 
     useEffect(()=> {
@@ -28,11 +31,24 @@ export default function App() {
         }
     }, [])
 
+    // Simple function using if and else to dictate whether the lga has
+    // a high number of cases, medium number of cases and low number of cases
+    // returns a red marker cases >= 500, a yellow marker cases >= 100 else a green marker
+    function LgaMarker(double) {
+        if(double >= 500)
+            return "/mapbox-marker-icon-red.svg";
+        else if (double >= 100)
+            return "/mapbox-marker-icon-yellow.svg";
+        return "/mapbox-marker-icon-green.svg";
+        
+    }
+
     return <div> 
         {/* Using the ReactMapGL API to create the map */}
         <ReactMapGL 
             {...viewport}
             mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}
+            // Style of the map which is a simple darkmode 
             mapStyle = "mapbox://styles/thefishua/cksu5uwz69phx17rkz3w54jq0"
             onViewportChange={viewport => {setViewport(viewport)
             }}
@@ -44,19 +60,18 @@ export default function App() {
                     key={region.LGA_CODE19} 
                     latitude={region.latitude} 
                     longitude={region.longitude} 
-                >
-                    <button 
-                        className="caution-btn"
-                        onClick={(e) =>{
+                    offsetLeft={-20} 
+                    offsetTop={-10}
+                    className="marker-btn"
+                    onClick={(e) =>{
                         e.preventDefault()
                         setSelectedMarker(region)
-                        }}
-                    > 
-                        <img src="/mapbox-marker-icon-red.svg" alt="Caution Marker"/>
-                    </button>
+                    }}
+                >
+                    <img src={LgaMarker(lga.list.active_cases)} alt="Marker"/>
                 </Marker>
             ))}
-
+            
             {selectedMarker ? (
                 <Popup 
                     latitude={selectedMarker.latitude}
