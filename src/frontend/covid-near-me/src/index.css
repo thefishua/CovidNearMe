@@ -16,17 +16,18 @@ code {
   position:absolute; 
   top:0; 
   bottom:0; 
-  width:100%
+  width:100%;
 }
 
-.caution-btn {
+.marker-btn {
   position: absolute;
   background: none;
   border: none;
   cursor: pointer;
 }
 
-.caution-btn img {
+.marker-btn img {
+  max-width: 40px;
   width: 40px;
   height: 40px;
 }
