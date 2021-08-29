@@ -34,11 +34,12 @@ export default function App() {
     // Simple function using if and else to dictate whether the lga has
     // a high number of cases, medium number of cases and low number of cases
     // returns a red marker cases >= 500, a yellow marker cases >= 100 else a green marker
-    function LgaMarker(double) {
-        if(double >= 500)
+    function LgaMarker(activeCases) {
+        if(activeCases >= 500) {
             return "/mapbox-marker-icon-red.svg";
-        else if (double >= 100)
+        } else if (activeCases >= 100) {
             return "/mapbox-marker-icon-yellow.svg";
+        }
         return "/mapbox-marker-icon-green.svg";
         
     }
