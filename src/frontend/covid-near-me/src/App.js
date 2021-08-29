@@ -46,6 +46,14 @@ export default function App() {
         }
         return "/mapbox-marker-icon-green.svg";
     }
+    // Depending on the time of day will change the map from a light or dark style 
+    // Will be on AEST time 
+    function dynamicMap() {
+        let currentTime = new Date();
+        // After 6pm then display night mode
+        if(currentTime.getHours() >= 18) return "mapbox://styles/thefishua/cksu5uwz69phx17rkz3w54jq0"
+        return "mapbox://styles/thefishua/ckswy2t14ceu417rkp5014f0l"
+    }
 
     return <div> 
         {/* Using the ReactMapGL API to create the map */}
@@ -53,9 +61,10 @@ export default function App() {
             {...viewport}
             mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}
             // Style of the map which is a simple darkmode 
-            mapStyle = "mapbox://styles/thefishua/cksu5uwz69phx17rkz3w54jq0"
+            mapStyle = {dynamicMap()}
             onViewportChange={viewport => {setViewport(viewport)
             }}
+            dragRotate = {false}
         >
             {/* from data lga JSON from list map as a region 
                 A marker is added to that region*/}
