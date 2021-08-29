@@ -51,7 +51,7 @@ export default function App() {
     function dynamicMap() {
         let currentTime = new Date();
         // After 6pm then display night mode
-        if(currentTime.getHours() >= 18) return "mapbox://styles/thefishua/cksu5uwz69phx17rkz3w54jq0"
+        if((currentTime.getHours() >= 18 && currentTime.getHours() <= 24) || (currentTime.getHours() > 0 && currentTime.getHours() < 5)) return "mapbox://styles/thefishua/cksu5uwz69phx17rkz3w54jq0"
         return "mapbox://styles/thefishua/ckswy2t14ceu417rkp5014f0l"
     }
 
