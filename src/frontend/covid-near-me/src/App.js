@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl"
 import * as lga from "./data/nsw_lga.json"
 export default function App() {
-    // The view of the user for when they use the mapbox
+    // Container for the mapbox 
     const [viewport, setViewport] = useState({
         // Default view for the map marked at Sydney
         // Below is the coordinates with 100% view and a zoom of 10
@@ -35,15 +35,16 @@ export default function App() {
     // a high number of cases, medium number of cases and low number of cases
     // returns a red marker cases >= 500, a yellow marker cases > 0, orange cases > 100 else a green marker
     function LgaMarker(activeCases) {
-        if(activeCases >= 500) {
+        if (activeCases >= 1000) {
+            return "/mapbox-marker-icon-purple.svg";
+        } else if(activeCases >= 500) {
             return "/mapbox-marker-icon-red.svg";
         } else if (activeCases >= 100) {
             return "/mapbox-marker-icon-orange.svg";
-        } else if (activeCases > 1) {
+        } else if (activeCases > 0) {
             return "/mapbox-marker-icon-yellow.svg";
         }
         return "/mapbox-marker-icon-green.svg";
-        
     }
 
     return <div> 
@@ -60,6 +61,9 @@ export default function App() {
                 A marker is added to that region*/}
             {lga.list.map((region) => (
                 <Marker 
+                    /**
+                     * Details for the marker 
+                     */
                     key={region.LGA_CODE19} 
                     latitude={region.latitude} 
                     longitude={region.longitude} 
@@ -77,6 +81,9 @@ export default function App() {
             
             {selectedMarker ? (
                 <Popup 
+                    /**
+                     * Details for the Popup 
+                     */
                     latitude={selectedMarker.latitude}
                     longitude={selectedMarker.longitude}
                     onClose={()=>{
