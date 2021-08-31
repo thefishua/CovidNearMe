@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import * as FaIcons from "react-icons/fa"
-import * as AiIcons from "react-icons/ai"
 import {Link} from "react-router-dom"
 import {SideBarData} from './SideBarData'
 import './SideBar.css'
@@ -21,11 +20,7 @@ function SideBar() {
             </div>
             <nav className={sidebar ? "nav-menu active": "nav-menu"}>
                 <ul className="nav-menu-items" onClick={showSidebar}>
-                    <li className="navbar-toggle">
-                        <Link to="#" className="menu-bars">
-                            <AiIcons.AiOutlineClose/>
-                        </Link>
-                    </li>
+                    
                     {/* Going through all the icons in the sideBarData file and displaying them
                         With the specified icon and the specified */}
                     {SideBarData.map((item, index) => {

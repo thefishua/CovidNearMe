@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ActiveCases from "./pages/ActiveCases";
 import Vaccinations from "./pages/Vaccinations";
 import CovidTestingCentre from "./pages/CovidTestingCentre";
+import Hotspots from "./pages/Hotspots";
 
 export default function App() {
     return <div> 
@@ -13,6 +14,7 @@ export default function App() {
                     <Route path='/' exact component={ActiveCases}/>
                     <Route path='/vaccination' component={Vaccinations}/>
                     <Route path='/testing' component={CovidTestingCentre}/>
+                    <Route path='/hotspots' component={Hotspots}/>
                 </Switch>
             
         </Router>
