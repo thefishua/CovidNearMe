@@ -116,12 +116,14 @@ function ActiveCases() {
                                 key = {cluster.id}
                                 latitude = {latitude}
                                 longitude = {longitude}
+                                offsetLeft={-20} 
+                                offsetTop={-10}
                             >
                                 <div 
                                     className = "cluster-marker"
                                     style={{
-                                        width: `${10 + (pointCount / points.length) * 20}px`,
-                                        height: `${10 + (pointCount / points.length) * 20}px`
+                                        width: `${10 + (pointCount / points.length) * 100}px`,
+                                        height: `${10 + (pointCount / points.length) * 100}px`
                                     }}   
                                     onClick = {() => {
                                         const expansionZoom = Math.min(supercluster.getClusterExpansionZoom(cluster.id),
@@ -141,7 +143,15 @@ function ActiveCases() {
                                 >
                                     {pointCount}
                                 </div> 
+                                <img 
+                                    src={LgaMarker(cluster.properties.active_cases)} 
+                                    alt="Marker"
+                                    // style = {{
+                                    //     width: `100px`,
+                                    //     height: `100px`
 
+                                    // }} 
+                                />
                             </Marker>
                         )
                     }
@@ -174,8 +184,8 @@ function ActiveCases() {
                         /**
                          * Details for the Popup 
                          */
-                        latitude={selectedMarker.latitude}
-                        longitude={selectedMarker.longitude}
+                        longitude = {selectedMarker.geometry.coordinates[0]}
+                        latitude = {selectedMarker.geometry.coordinates[1]}
                         onClose={()=>{
                             setSelectedMarker(null)
                         }}
