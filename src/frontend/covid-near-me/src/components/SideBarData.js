@@ -1,6 +1,6 @@
 import React from 'react'
 import * as FaIcons from "react-icons/fa"
-import * as AiIcons from "react-icons/ai"
+import * as GoIcons from "react-icons/go"
 import * as IOIcons from "react-icons/io"
 
 export const SideBarData = [
@@ -21,5 +21,11 @@ export const SideBarData = [
         path: '/testing', 
         icon: <IOIcons.IoMdPeople/>,
         cName: 'nav-text' 
+     },
+     {
+         title: 'HotSpots', 
+         path: '/hotspots', 
+         icon: <GoIcons.GoFlame/>,
+         cName: 'nav-text' 
      },
 ]
