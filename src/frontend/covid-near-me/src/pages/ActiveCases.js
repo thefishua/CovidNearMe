@@ -1,6 +1,9 @@
-import React, {useState, useEffect} from "react";
-import ReactMapGL, {Marker, Popup} from "react-map-gl"
-import * as lga from "../data/nsw_lga.json"
+import React, {useState, useEffect, useRef} from "react";
+import ReactMapGL, {FlyToInterpolator, Marker, Popup, TransitionInterpolator} from "react-map-gl";
+import * as lga from "../data/nsw_lga.json";
+
+import useSupercluster from "use-supercluster";
+
 function ActiveCases() {
     // Container for the mapbox 
     const [viewport, setViewport] = useState({
@@ -8,6 +11,8 @@ function ActiveCases() {
         // Below is the coordinates with 100% view and a zoom of 10
         latitude:  -33.865143,
         longitude: 151.209900,
+        width: "100vw", 
+        height: "100vh",
         // Change these values to make the map smaller or bigger
         zoom: 10
     });
@@ -45,41 +50,124 @@ function ActiveCases() {
         return "/mapbox-marker-icon-green.svg";
     }
     
+    const mapRef = useRef();
+
+    const points = lga.list.map(region => ({
+        type: "Feature",
+        properties: {
+            cluster: false,
+            lgaId: region.LGA_CODE19,
+            lgaName: region.LGA_NAME19,
+            active_cases: region.active_cases
+        },
+        geometry: {
+            type: "Point",
+            coordinates: [
+                region.longitude,
+                region.latitude
+            ]
+        }
+    }));
+
+    const bounds = mapRef.current
+    ? mapRef.current
+        .getMap()
+        .getBounds()
+        .toArray()
+        .flat()
+    : null;
+
+    const { clusters, supercluster } = useSupercluster({
+        points,
+        bounds,
+        zoom: viewport.zoom,
+        options: {
+            radius: 75,
+            maxZoom: 20
+        },
+    });
+
+    // console.log(clusters)
     return (
         <div className='active-case'>
             
             <ReactMapGL 
                 {...viewport}
-                width="100vw" 
-                height="100vh"
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}
                 // Style of the map which is a simple darkmode 
                 mapStyle = {"mapbox://styles/thefishua/cksu5uwz69phx17rkz3w54jq0"}
                 onViewportChange={viewport => {setViewport(viewport)
                 }}
                 dragRotate = {false}
+                ref = {mapRef}
             >
                 {/* from data lga JSON from list map as a region 
                     A marker is added to that region*/}
-                {lga.list.map((region) => (
-                    <Marker 
-                        /**
-                         * Details for the marker 
-                         */
-                        key={region.LGA_CODE19} 
-                        latitude={region.latitude} 
-                        longitude={region.longitude} 
-                        offsetLeft={-20} 
-                        offsetTop={-10}
-                        className="marker-btn"
-                        onClick={(e) =>{
-                            e.preventDefault()
-                            setSelectedMarker(region)
-                        }}
-                    >
-                        <img src={LgaMarker(region.active_cases)} alt="Marker"/>
-                    </Marker>
-                ))}
+                {clusters.map(cluster => {
+                    const [longitude, latitude] = cluster.geometry.coordinates;
+                    const { 
+                        cluster: isCluster, 
+                        point_count: pointCount
+                    } = cluster.properties;
+
+                    if (isCluster) {
+                        return (
+                            <Marker 
+                                key = {cluster.id}
+                                latitude = {latitude}
+                                longitude = {longitude}
+                            >
+                                <div 
+                                    className = "cluster-marker"
+                                    style={{
+                                        width: `${10 + (pointCount / points.length) * 20}px`,
+                                        height: `${10 + (pointCount / points.length) * 20}px`
+                                    }}   
+                                    onClick = {() => {
+                                        const expansionZoom = Math.min(supercluster.getClusterExpansionZoom(cluster.id),
+                                        20);
+                                        setViewport({
+                                            ...viewport,
+                                            latitude,
+                                            longitude,
+                                            zoom: expansionZoom,
+                                            transitionInterpolator: new FlyToInterpolator({
+                                                speed: 2,
+                                            }), 
+                                            transitionDuration : "auto"
+                                        });
+
+                                    }}
+                                >
+                                    {pointCount}
+                                </div> 
+
+                            </Marker>
+                        )
+                    }
+
+                    
+                    
+                    return (
+                        <Marker 
+                            /**
+                             * Details for the marker 
+                             */
+                            key={cluster.properties.lgaId} 
+                            latitude={latitude} 
+                            longitude={longitude} 
+                            offsetLeft={-20} 
+                            offsetTop={-10}
+                            className="marker-btn"
+                            onClick={(e) =>{
+                                e.preventDefault()
+                                setSelectedMarker(cluster)
+                            }}
+                        >
+                            <img src={LgaMarker(cluster.properties.active_cases)} alt="Marker"/>
+                        </Marker>
+                    );
+                })}
                 
                 {selectedMarker ? (
                     <Popup 
@@ -93,8 +181,8 @@ function ActiveCases() {
                         }}
                     >
                         <div>
-                            <h2>{selectedMarker.LGA_NAME19}</h2>
-                            <p> Active Cases: {selectedMarker.active_cases}</p>
+                            <h2>{selectedMarker.properties.lgaName}</h2>
+                            <p> Active Cases: {selectedMarker.properties.active_cases}</p>
                         </div>
                     </Popup>
                 ) : null}
