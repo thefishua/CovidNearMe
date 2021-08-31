@@ -9,7 +9,8 @@
 
 .active-case,
 .vaccination,
-.covid-testing-centre {
+.covid-testing-centre,
+.hotspot {
   display: flex;
   height: 90vh;
   align-items: center;
