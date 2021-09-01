@@ -1,16 +1,13 @@
 import React, {useState, useEffect, useRef} from "react";
-import ReactMapGL, {FlyToInterpolator, Marker, Popup, TransitionInterpolator} from "react-map-gl";
-// import * as lga from "../data/nsw_lga.json"
-import useSwr from "swr";
+import ReactMapGL, {FlyToInterpolator, Marker, Popup} from "react-map-gl";
+import * as lga from "../data/nsw_lga.json"
 import useSupercluster from "use-supercluster";
 
-
-
-const url = "https://localhost:8080/active"
-const fetcher = (...args) => fetch(...args).then(response => response.json());
+const url = "http://localhost:8080/update-active";
 
 function ActiveCases() {
     // Container for the mapbox 
+    
     const [viewport, setViewport] = useState({
         // Default view for the map marked at Sydney
         // Below is the coordinates with 100% view and a zoom of 10
@@ -54,15 +51,13 @@ function ActiveCases() {
         }
         return "/mapbox-marker-icon-green.svg";
     }
-    
+    const now = Math.floor(Date.now() / 1000)
+    if (Math.abs(lga.timestamp - now) > 3600) {
+        fetch(url);
+    }
+
     const mapRef = useRef();
-
-    const { data, error } = useSwr(url, {fetcher});
-    const lga = data && !error ? data : [];
-    console.log(lga);
-
-
-
+    
     const points = lga.list.map(region => ({
         type: "Feature",
         properties: {
