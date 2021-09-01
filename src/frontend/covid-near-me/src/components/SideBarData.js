@@ -23,7 +23,7 @@ export const SideBarData = [
       cName: 'nav-text' 
    },
    {
-      title: 'Covid Testing Centre', 
+      title: 'Covid Testing Clinics', 
       path: '/testing', 
       icon: <IOIcons.IoMdPeople/>,
       cName: 'nav-text' 
