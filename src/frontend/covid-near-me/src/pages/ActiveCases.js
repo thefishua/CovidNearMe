@@ -1,13 +1,13 @@
 import React, {useState, useEffect, useRef} from "react";
 import ReactMapGL, {FlyToInterpolator, Marker, Popup, TransitionInterpolator} from "react-map-gl";
-import * as lga from "../data/nsw_lga.json";
-// import useSwr from "swr"
+// import * as lga from "../data/nsw_lga.json"
+import useSwr from "swr";
 import useSupercluster from "use-supercluster";
 
 
 
-// const url = "https://localhost:8080"
-// const fetcher = (..args) => fetch(...args).then(response =>)
+const url = "https://localhost:8080/active"
+const fetcher = (...args) => fetch(...args).then(response => response.json());
 
 function ActiveCases() {
     // Container for the mapbox 
@@ -56,6 +56,12 @@ function ActiveCases() {
     }
     
     const mapRef = useRef();
+
+    const { data, error } = useSwr(url, {fetcher});
+    const lga = data && !error ? data : [];
+    console.log(lga);
+
+
 
     const points = lga.list.map(region => ({
         type: "Feature",
