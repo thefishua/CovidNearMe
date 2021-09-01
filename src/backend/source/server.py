@@ -3,6 +3,7 @@ import json
 from flask import Flask, request
 from os import path
 from time import time
+from flask_cors import CORS
 
 from load import loadLGACases
 
@@ -27,6 +28,7 @@ def defaultHandler(err):
 APP = Flask(__name__)
 APP.config['TRAP_HTTP_EXCEPTIONS'] = True
 APP.register_error_handler(Exception, defaultHandler)
+CORS(APP)
 
 @APP.route("/echo", methods=['GET'])
 def echo():
@@ -43,7 +45,7 @@ def get_json():
         data = loadLGACases()
     return json.dumps(data)
 
-@APP.route("/update", methods=["GET"])
+@APP.route("/update-active", methods=["GET"])
 def update():
     ret = {}
     ret["success"] = False
