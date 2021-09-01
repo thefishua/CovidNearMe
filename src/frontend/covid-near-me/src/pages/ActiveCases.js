@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import ReactMapGL, {FlyToInterpolator, Marker, Popup, TransitionInterpolator} from "react-map-gl";
+import ReactMapGL, {FlyToInterpolator, Marker, Popup} from "react-map-gl";
 import useSupercluster from "use-supercluster";
 import * as lga from "../data/nsw_lga.json"
 function ActiveCases() {
