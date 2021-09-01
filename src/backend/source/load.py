@@ -31,6 +31,7 @@ def loadLGACases():
     with open(file_path, "w") as f:
         json.dump(data, f)
     f.close()
+    return data
 
 # def loadPostcodeCases():
 #     file_path = path.abspath(path.join(BASEPATH, FILEPATH))
