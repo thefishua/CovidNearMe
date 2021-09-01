@@ -3,7 +3,7 @@ import SideBar from "./components/SideBar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ActiveCases from "./pages/ActiveCases";
 import Vaccinations from "./pages/Vaccinations";
-import CovidTestingCentre from "./pages/CovidTestingCentre";
+import CovidTestingCentre from "./pages/CovidTestingClinic";
 import Hotspots from "./pages/Hotspots";
 
 export default function App() {
