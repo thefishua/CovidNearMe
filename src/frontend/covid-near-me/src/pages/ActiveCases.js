@@ -1,8 +1,13 @@
 import React, {useState, useEffect, useRef} from "react";
 import ReactMapGL, {FlyToInterpolator, Marker, Popup, TransitionInterpolator} from "react-map-gl";
 import * as lga from "../data/nsw_lga.json";
-
+// import useSwr from "swr"
 import useSupercluster from "use-supercluster";
+
+
+
+// const url = "https://localhost:8080"
+// const fetcher = (..args) => fetch(...args).then(response =>)
 
 function ActiveCases() {
     // Container for the mapbox 
@@ -87,7 +92,6 @@ function ActiveCases() {
         },
     });
 
-    // console.log(clusters)
     return (
         <div className='active-case'>
             
@@ -109,21 +113,22 @@ function ActiveCases() {
                         cluster: isCluster, 
                         point_count: pointCount
                     } = cluster.properties;
-
+                
                     if (isCluster) {
                         return (
                             <Marker 
                                 key = {cluster.id}
                                 latitude = {latitude}
                                 longitude = {longitude}
-                                offsetLeft={-20} 
+                                offsetLeft={Math.min(-50, -0.5 * pointCount)}
                                 offsetTop={-10}
                             >
                                 <div 
-                                    className = "cluster-marker"
+                                    className = "cluster-number"
                                     style={{
                                         width: `${10 + (pointCount / points.length) * 100}px`,
-                                        height: `${10 + (pointCount / points.length) * 100}px`
+                                        height: `${10 + (pointCount / points.length) * 100}px`,
+                                        color: `white`,
                                     }}   
                                     onClick = {() => {
                                         const expansionZoom = Math.min(supercluster.getClusterExpansionZoom(cluster.id),
@@ -141,23 +146,20 @@ function ActiveCases() {
 
                                     }}
                                 >
-                                    {pointCount}
-                                </div> 
-                                <img 
-                                    src={LgaMarker(cluster.properties.active_cases)} 
+                                    <img 
+                                    className = 'cluster-marker'
+                                    src={"/mapbox-marker-icon-blue.svg"} 
                                     alt="Marker"
-                                    // style = {{
-                                    //     width: `100px`,
-                                    //     height: `100px`
-
-                                    // }} 
-                                />
+                                    />
+                                    
+                
+                            </div> 
+                            {/* <div className = "cluster-number">{pointCount}</div> */}
                             </Marker>
                         )
                     }
 
-                    
-                    
+
                     return (
                         <Marker 
                             /**
@@ -172,6 +174,17 @@ function ActiveCases() {
                             onClick={(e) =>{
                                 e.preventDefault()
                                 setSelectedMarker(cluster)
+                                const expansionZoom = 13.5
+                                        setViewport({
+                                            ...viewport,
+                                            latitude,
+                                            longitude,
+                                            zoom: expansionZoom,
+                                            transitionInterpolator: new FlyToInterpolator({
+                                                speed: 2,
+                                            }), 
+                                            transitionDuration : "auto"
+                                        });
                             }}
                         >
                             <img src={LgaMarker(cluster.properties.active_cases)} alt="Marker"/>

@@ -32,9 +32,22 @@ code {
   height: 40px;
 }
 
+.cluster-number {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  color: white;
+}
+
 .cluster-marker {
   position: absolute;
   background: none;
   border: none;
   cursor: pointer;
+  z-index: 1;
+  width: 100px;
+  height: 100px;
 }
+
