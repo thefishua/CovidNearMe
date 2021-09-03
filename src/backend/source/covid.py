@@ -91,10 +91,10 @@ def casesActivePerPostcode(postcode: int) -> int:
 
 
 
-# if __name__ == "__main__":
-#     print(casesActivePerPostcode(2165))
-    # f = open("./data/nsw_postcodes.json")
-    # postcodes = json.load(f)
-    # for area in postcodes:
-    #     count = casesActivePerLGA(area[POSTCODE])
-    #     print(f"Active cases in {area[POSTCODE_NAME]}: {count}")
+if __name__ == "__main__":
+    print(casesActivePerPostcode(2165))
+    f = open("./data/nsw_postcodes.json")
+    postcodes = json.load(f)
+    for area in postcodes:
+        count = casesActivePerLGA(area[POSTCODE])
+        print(f"Active cases in {area[POSTCODE_NAME]}: {count}")

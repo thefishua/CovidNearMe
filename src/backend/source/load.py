@@ -1,4 +1,6 @@
+from covid_testing_clinic import CovidTestingClinic
 from covid import casesActiveNSW, casesActivePerLGA
+from hotspots import JSONHotspotsNSW
 import json
 from time import time
 from os import path
@@ -33,6 +35,27 @@ def loadLGACases():
     f.close()
     return data
 
+def loadHotspots():
+    file_path = path.abspath(path.join(BASEPATH, FILEPATH))
+    file_path += "/hotspots.json"
+    f = open(file_path, "r")
+    data = json.load(f) 
+    f.close()
+    data = JSONHotspotsNSW()
+    with open(file_path, "w") as f:
+        json.dump(data, f)
+    f.close()
+
+def loadCovidClinics():
+    file_path = path.abspath(path.join(BASEPATH, FILEPATH))
+    file_path += "/covid_testing_clinic.json"
+    f = open(file_path, "r")
+    data = json.load(f) 
+    f.close()
+    data = CovidTestingClinic()
+    with open(file_path, "w") as f:
+        json.dump(data, f)
+    f.close()
 # def loadPostcodeCases():
 #     file_path = path.abspath(path.join(BASEPATH, FILEPATH))
 #     file_path += "/nsw_postcodes.json"
@@ -49,6 +72,5 @@ def loadLGACases():
 #     f.close()
 
 if __name__ == "__main__":
-    loadTotalCases()
-    loadLGACases()
+    loadCovidClinics()
     # loadPostcodeCases()
