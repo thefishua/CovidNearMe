@@ -1,5 +1,5 @@
 import React from "react";
-import SideBar from "./components/SideBar";
+import SideBar from "./sidebar/SideBar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ActiveCases from "./pages/ActiveCases";
 import Vaccinations from "./pages/Vaccinations";
