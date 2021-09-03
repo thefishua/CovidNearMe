@@ -7,6 +7,7 @@ const url = "http://localhost:8080/update-active";
 
 function ActiveCases() {
     // Container for the mapbox 
+
     
     const [viewport, setViewport] = useState({
         // Default view for the map marked at Sydney
@@ -18,6 +19,23 @@ function ActiveCases() {
         // Change these values to make the map smaller or bigger
         zoom: 10
     });
+    // This function gets the user's current location and zooms the
+    // maps into a suitble area
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(pos =>{
+            setViewport({
+                ...viewport,
+                latitude: pos.coords.latitude,
+                longitude: pos.coords.longitude,
+                zoom: 12.5,
+                transitionInterpolator: new FlyToInterpolator({
+                    speed: 2,
+                }), 
+                transitionDuration : "auto"
+            });
+        });
+    }, []);
+
     // The Marker that is selected by the user 
     // Is set to false and then true when in use
     const [selectedMarker, setSelectedMarker] = useState(null);
@@ -35,6 +53,10 @@ function ActiveCases() {
             window.removeEventListener("keydown", listener)
         }
     }, [])
+
+    
+
+
 
     // Simple function using if and else to dictate whether the lga has
     // a high number of cases, medium number of cases and low number of cases
@@ -58,6 +80,7 @@ function ActiveCases() {
 
     const mapRef = useRef();
     
+    // This defines all the points on the map
     const points = lga.list.map(region => ({
         type: "Feature",
         properties: {
@@ -75,6 +98,8 @@ function ActiveCases() {
         }
     }));
 
+    // gets the current bounds of the map
+    // it is used to calculate the clusters
     const bounds = mapRef.current
     ? mapRef.current
         .getMap()
@@ -83,6 +108,7 @@ function ActiveCases() {
         .flat()
     : null;
 
+    // Defines all the clusters on the map 
     const { clusters, supercluster } = useSupercluster({
         points,
         bounds,
@@ -106,8 +132,9 @@ function ActiveCases() {
                 dragRotate = {false}
                 ref = {mapRef}
             >
-                {/* from data lga JSON from list map as a region 
-                    A marker is added to that region*/}
+                {/* So instead of mapping Markers we are mapping cluster, and
+                depending on isCluster, returning a cluster node if true, or a 
+                normal marker if false */}
                 {clusters.map(cluster => {
                     const [longitude, latitude] = cluster.geometry.coordinates;
                     const { 
