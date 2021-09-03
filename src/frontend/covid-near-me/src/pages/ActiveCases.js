@@ -34,7 +34,9 @@ function ActiveCases() {
                 transitionDuration : "auto"
             });
         });
+    // eslint-disable-next-line
     }, []);
+    
 
     // The Marker that is selected by the user 
     // Is set to false and then true when in use
