@@ -1,8 +1,8 @@
 import React from 'react'
-
+import "./Vaccination.css"
 function Vaccinations() {
     return (
-        <div className='vaccination'>
+        <div className='vaccination-title'>
             Vaccination
         </div>
     )

@@ -1,0 +1,8 @@
+.vaccination-title {
+    background-color: red;
+    font-style: bold;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+
+}
