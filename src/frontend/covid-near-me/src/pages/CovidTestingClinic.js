@@ -1,5 +1,5 @@
 import React, {useState, useEffect}from 'react'
-import ReactMapGL, {Marker, Popup} from "react-map-gl";
+import ReactMapGL, {Marker, Popup, GeolocateControl, NavigationControl} from "react-map-gl";
 import * as clinic from "../data/covid_testing_clinic.json"
 import "./CovidTestingClinic.css"
 function CovidTestingClinic() {
@@ -54,6 +54,16 @@ function CovidTestingClinic() {
         : null)
     ), []);
 
+    const geoControlStyle = {
+        right: 25,
+        top: 10,
+    };
+
+    const navControlStyle = {
+        top: 50,
+        right: 25,
+    }
+
     return (
         <div className='clinic'>
             <ReactMapGL
@@ -67,6 +77,20 @@ function CovidTestingClinic() {
                 }}
                 dragRotate = {false}
             >
+            {/* Current location button */}
+            <GeolocateControl 
+                style = {geoControlStyle}
+                positionsOptions = {{enableHighAccuracy:true}}
+                trackUserLocation={true}
+                showAccuracyCircle = {true}
+                fitBoundsOptions = {{maxZoom: 12.5}}
+                
+            />
+            {/* Map zoom in tools */}
+            <NavigationControl
+                style = {navControlStyle}
+                showCompass = {false}
+            />
                 {markers}
                 {selectedMarker ? (
                     <Popup 

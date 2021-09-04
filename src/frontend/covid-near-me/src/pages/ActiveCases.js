@@ -1,12 +1,16 @@
 import React, {useState, useEffect, useRef} from "react";
-import ReactMapGL, {FlyToInterpolator, Marker, Popup} from "react-map-gl";
+import ReactMapGL, {FlyToInterpolator, Marker, Popup, GeolocateControl, NavigationControl} from "react-map-gl";
 import * as lga from "../data/nsw_lga.json"
 import useSupercluster from "use-supercluster";
+
+import "../index.css";
+import "../mapbox-gl.css"
 
 const url = "http://localhost:8080/update-active";
 
 function ActiveCases() {
     // Container for the mapbox 
+
     
     const [viewport, setViewport] = useState({
         // Default view for the map marked at Sydney
@@ -18,6 +22,7 @@ function ActiveCases() {
         // Change these values to make the map smaller or bigger
         zoom: 10
     });
+
     // The Marker that is selected by the user 
     // Is set to false and then true when in use
     const [selectedMarker, setSelectedMarker] = useState(null);
@@ -36,6 +41,10 @@ function ActiveCases() {
         }
     }, [])
 
+    
+
+
+
     // Simple function using if and else to dictate whether the lga has
     // a high number of cases, medium number of cases and low number of cases
     // returns a red marker cases >= 500, a yellow marker cases > 0, orange cases > 100 else a green marker
@@ -51,13 +60,19 @@ function ActiveCases() {
         }
         return "/mapbox-marker-icon-green.svg";
     }
-    const now = Math.floor(Date.now() / 1000)
-    if (Math.abs(lga.timestamp - now) > 3600) {
-        fetch(url);
-    }
+
+    useEffect(()=> {
+        const now = Math.floor(Date.now() / 1000)
+        if (Math.abs(lga.timestamp - now) > 3600) {
+            console.log(Math.abs(lga.timestamp - now))
+            fetch(url);
+        }
+    }, [])
+
 
     const mapRef = useRef();
     
+    // This defines all the points on the map
     const points = lga.list.map(region => ({
         type: "Feature",
         properties: {
@@ -75,6 +90,8 @@ function ActiveCases() {
         }
     }));
 
+    // gets the current bounds of the map
+    // it is used to calculate the clusters
     const bounds = mapRef.current
     ? mapRef.current
         .getMap()
@@ -83,6 +100,7 @@ function ActiveCases() {
         .flat()
     : null;
 
+    // Defines all the clusters on the map 
     const { clusters, supercluster } = useSupercluster({
         points,
         bounds,
@@ -92,6 +110,17 @@ function ActiveCases() {
             maxZoom: 20
         },
     });
+
+    const geoControlStyle = {
+        right: 25,
+        top: 10,
+    };
+
+    const navControlStyle = {
+        top: 50,
+        right: 25,
+    }
+
 
     return (
         <div className='active-case'>
@@ -106,8 +135,24 @@ function ActiveCases() {
                 dragRotate = {false}
                 ref = {mapRef}
             >
-                {/* from data lga JSON from list map as a region 
-                    A marker is added to that region*/}
+            {/* Current location button */}
+            <GeolocateControl 
+                style = {geoControlStyle}
+                positionsOptions = {{enableHighAccuracy:true}}
+                trackUserLocation={true}
+                showAccuracyCircle = {true}
+                fitBoundsOptions = {{maxZoom: 12.5}}
+                
+            />
+            {/* Map zoom in tools */}
+            <NavigationControl
+                style = {navControlStyle}
+                showCompass = {false}
+            />
+
+                {/* So instead of mapping Markers we are mapping cluster, and
+                depending on isCluster, returning a cluster node if true, or a 
+                normal marker if false */}
                 {clusters.map(cluster => {
                     const [longitude, latitude] = cluster.geometry.coordinates;
                     const { 

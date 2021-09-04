@@ -12,13 +12,6 @@ code {
     monospace;
 }
 
-#map {
-  position:absolute; 
-  top:0; 
-  bottom:0; 
-  width:100%;
-}
-
 .marker-btn {
   position: absolute;
   background: none;
@@ -50,4 +43,5 @@ code {
   width: 100px;
   height: 100px;
 }
+
 
