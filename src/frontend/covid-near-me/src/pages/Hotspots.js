@@ -74,6 +74,7 @@ function Hotspots() {
                 }}
                 dragRotate = {false}
             >
+            {/* Current location button */}
             <GeolocateControl 
                 style = {geoControlStyle}
                 positionsOptions = {{enableHighAccuracy:true}}
@@ -82,6 +83,7 @@ function Hotspots() {
                 fitBoundsOptions = {{maxZoom: 12.5}}
                 
             />
+            {/* Map zoom in tools */}
             <NavigationControl
                 style = {navControlStyle}
                 showCompass = {false}

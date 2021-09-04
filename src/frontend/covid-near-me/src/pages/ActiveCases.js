@@ -22,24 +22,6 @@ function ActiveCases() {
         // Change these values to make the map smaller or bigger
         zoom: 10
     });
-    // This function gets the user's current location and zooms the
-    // maps into a suitble area
-    // useEffect(() => {
-    //     navigator.geolocation.getCurrentPosition(pos =>{
-    //         setViewport({
-    //             ...viewport,
-    //             latitude: pos.coords.latitude,
-    //             longitude: pos.coords.longitude,
-    //             zoom: 12.5,
-    //             transitionInterpolator: new FlyToInterpolator({
-    //                 speed: 2,
-    //             }), 
-    //             transitionDuration : "auto"
-    //         });
-    //     });
-    // // eslint-disable-next-line
-    // }, []);
-    
 
     // The Marker that is selected by the user 
     // Is set to false and then true when in use
@@ -152,7 +134,8 @@ function ActiveCases() {
                 }}
                 dragRotate = {false}
                 ref = {mapRef}
-            > 
+            >
+            {/* Current location button */}
             <GeolocateControl 
                 style = {geoControlStyle}
                 positionsOptions = {{enableHighAccuracy:true}}
@@ -161,6 +144,7 @@ function ActiveCases() {
                 fitBoundsOptions = {{maxZoom: 12.5}}
                 
             />
+            {/* Map zoom in tools */}
             <NavigationControl
                 style = {navControlStyle}
                 showCompass = {false}

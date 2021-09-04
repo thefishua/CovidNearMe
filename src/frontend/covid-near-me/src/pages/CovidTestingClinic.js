@@ -77,6 +77,7 @@ function CovidTestingClinic() {
                 }}
                 dragRotate = {false}
             >
+            {/* Current location button */}
             <GeolocateControl 
                 style = {geoControlStyle}
                 positionsOptions = {{enableHighAccuracy:true}}
@@ -85,6 +86,7 @@ function CovidTestingClinic() {
                 fitBoundsOptions = {{maxZoom: 12.5}}
                 
             />
+            {/* Map zoom in tools */}
             <NavigationControl
                 style = {navControlStyle}
                 showCompass = {false}
