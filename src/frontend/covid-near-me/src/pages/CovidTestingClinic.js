@@ -1,6 +1,9 @@
 import React, {useState, useEffect}from 'react'
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
+import * as FcIcons from "react-icons/fc"
 import * as clinic from "../data/covid_testing_clinic.json"
+import {MapKeyData} from '../map/CovidClinicMapKeyData'
+import MapKey from "../map/MapKey";
 import "./CovidTestingClinic.css"
 function CovidTestingClinic() {
     // Array of days of the week to show the relevant time a clinic is open on a certain day
@@ -41,21 +44,21 @@ function CovidTestingClinic() {
                 key={region._id}
                 latitude={parseFloat(region.Latitude)}
                 longitude={parseFloat(region.Longitude)}
-                offsetLeft={-20} 
-                offsetTop={-10}
+                offsetLeft={-8} 
                 className="marker-btn"
                 onClick={(e) =>{
                     e.preventDefault()
                     setSelectedMarker(region)
                 }}
             >
-                <img src={"/mapbox-marker-icon-red.svg"} alt="Marker"></img>
+                <FcIcons.FcHome/>
             </Marker>
         : null)
     ), []);
 
     return (
         <div className='clinic'>
+            <MapKey MapKeyData={MapKeyData}/>
             <ReactMapGL
                 {...viewport}
                 width="100vw" 

@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from "react";
 import ReactMapGL, {FlyToInterpolator, Marker, Popup} from "react-map-gl";
 import * as lga from "../data/nsw_lga.json"
 import useSupercluster from "use-supercluster";
+import {MapKeyData} from '../map/ActiveCaseMapKeyData'
 import MapKey from "../map/MapKey";
 
 const url = "http://localhost:8080/update-active";
@@ -96,7 +97,7 @@ function ActiveCases() {
 
     return (
         <div className='active-case'>
-            <MapKey/>
+            <MapKey MapKeyData={MapKeyData}/>
             <ReactMapGL 
                 {...viewport}
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}

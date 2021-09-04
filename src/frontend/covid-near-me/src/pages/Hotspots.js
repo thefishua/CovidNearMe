@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl"
 import * as hotspot from "../data/hotspots.json"
+import {MapKeyData} from '../map/HotspotsMapKeyData'
+import MapKey from "../map/MapKey";
 import './Hotspots.css'
 function Hotspots() {
     // Container for the mapbox 
@@ -53,6 +55,7 @@ function Hotspots() {
 
     return (
         <div className='hotspot'>
+            <MapKey MapKeyData={MapKeyData}/>
             <ReactMapGL
                 {...viewport}
                 width="100vw" 
