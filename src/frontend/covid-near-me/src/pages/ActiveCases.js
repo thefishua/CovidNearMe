@@ -1,7 +1,10 @@
 import React, {useState, useEffect, useRef} from "react";
-import ReactMapGL, {FlyToInterpolator, Marker, Popup} from "react-map-gl";
+import ReactMapGL, {FlyToInterpolator, Marker, Popup, GeolocateControl, NavigationControl} from "react-map-gl";
 import * as lga from "../data/nsw_lga.json"
 import useSupercluster from "use-supercluster";
+
+import "../index.css";
+import "../mapbox-gl.css"
 
 const url = "http://localhost:8080/update-active";
 
@@ -21,21 +24,21 @@ function ActiveCases() {
     });
     // This function gets the user's current location and zooms the
     // maps into a suitble area
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(pos =>{
-            setViewport({
-                ...viewport,
-                latitude: pos.coords.latitude,
-                longitude: pos.coords.longitude,
-                zoom: 12.5,
-                transitionInterpolator: new FlyToInterpolator({
-                    speed: 2,
-                }), 
-                transitionDuration : "auto"
-            });
-        });
-    // eslint-disable-next-line
-    }, []);
+    // useEffect(() => {
+    //     navigator.geolocation.getCurrentPosition(pos =>{
+    //         setViewport({
+    //             ...viewport,
+    //             latitude: pos.coords.latitude,
+    //             longitude: pos.coords.longitude,
+    //             zoom: 12.5,
+    //             transitionInterpolator: new FlyToInterpolator({
+    //                 speed: 2,
+    //             }), 
+    //             transitionDuration : "auto"
+    //         });
+    //     });
+    // // eslint-disable-next-line
+    // }, []);
     
 
     // The Marker that is selected by the user 
@@ -75,10 +78,15 @@ function ActiveCases() {
         }
         return "/mapbox-marker-icon-green.svg";
     }
-    const now = Math.floor(Date.now() / 1000)
-    if (Math.abs(lga.timestamp - now) > 3600) {
-        fetch(url);
-    }
+
+    useEffect(()=> {
+        const now = Math.floor(Date.now() / 1000)
+        if (Math.abs(lga.timestamp - now) > 3600) {
+            console.log(Math.abs(lga.timestamp - now))
+            fetch(url);
+        }
+    }, [])
+
 
     const mapRef = useRef();
     
@@ -121,6 +129,17 @@ function ActiveCases() {
         },
     });
 
+    const geoControlStyle = {
+        right: 25,
+        top: 10,
+    };
+
+    const navControlStyle = {
+        top: 50,
+        right: 25,
+    }
+
+
     return (
         <div className='active-case'>
             
@@ -133,7 +152,20 @@ function ActiveCases() {
                 }}
                 dragRotate = {false}
                 ref = {mapRef}
-            >
+            > 
+            <GeolocateControl 
+                style = {geoControlStyle}
+                positionsOptions = {{enableHighAccuracy:true}}
+                trackUserLocation={true}
+                showAccuracyCircle = {true}
+                fitBoundsOptions = {{maxZoom: 12.5}}
+                
+            />
+            <NavigationControl
+                style = {navControlStyle}
+                showCompass = {false}
+            />
+
                 {/* So instead of mapping Markers we are mapping cluster, and
                 depending on isCluster, returning a cluster node if true, or a 
                 normal marker if false */}
