@@ -9,8 +9,15 @@ VACCINE_URL = 'https://raw.githubusercontent.com/owid/covid-19-data/master/publi
 def VaccineNSW():
     obj = request.urlopen(VACCINE_URL)
     csv = pd.DataFrame(pd.read_csv(obj, sep = ",", header = 0, index_col = False))
+    # Loop through all dates of the vaccination data until 
+    # Recordings of fully vaccinated and partially vaccinated people was recorded
+    i = 0
+    for date in csv["date"]:
+        if(date == "2021-05-24"): 
+            break
+        csv = csv.drop(index=i)
+        i+=1
     return csv
-
 
 if __name__ == "__main__":
     # print(VaccineNSW())

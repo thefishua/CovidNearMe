@@ -8,83 +8,52 @@ import {
     CartesianGrid, 
     Tooltip, 
     Legend, 
-    ResponsiveContainer 
+    ResponsiveContainer, 
+    ComposedChart,
+    Area,
+    Bar
 } from 'recharts';
 import "./Vaccination.css"
 
-const data = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
-
+// Elements of vaccine from json file
+var lastElement = vaccine.list[vaccine.list.length - 1]
+var midElement = vaccine.list[vaccine.list.length/2]
+var firstElement = vaccine.list[0]
 
 
 function Vaccinations() {
     return (
-        
-        <div className="vaccination-title">
-            Vaccination
-            <div className="vaccination-graph">
-                <LineChart
-                    width={500}
-                    height={300}
-                    data={vaccine.list}
-                    margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="total_vaccinations" stroke="#8884d8" activeDot={{ r: 8 }} />
-                    <Line type="monotone" dataKey="people_fully_vaccinated" stroke="#82ca9d" />
-                </LineChart>
+        <div className="vaccination-background">
+            <div className="vaccination-title">
+                Vaccination
             </div>
+            <div className="vaccination-graph">
+                <ResponsiveContainer>
+                    <ComposedChart
+                        data={vaccine.list}
+                        margin={{ 
+                            top: 20, 
+                            right: 30, 
+                            left: 100, 
+                            bottom: 10 
+                        }}
+                    >
+                        <XAxis dataKey="date" ticks={[firstElement.date,midElement.date,lastElement.date]}/>
+                        <YAxis />
+                        <Tooltip itemStyle={[]}/>
+                        <Legend verticalAlign="bottom" height={36}/>
+                        <Line type="monotone" dataKey="total_vaccinations" stroke="#f08e33" activeDot={{ r: 8 }} />
+                        <Bar dataKey="people_fully_vaccinated" barSize={20} fill="#8884d8" />
+                        <Area type="monotone" dataKey="people_vaccinated" fill="#8884d8" stroke="#8884d8" />
+                    </ComposedChart>
+                </ResponsiveContainer>
+            </div>
+            <li className="vaccination-info">
+                <li> Total Vaccinations: {lastElement.total_vaccinations} People</li>
+                <li> Percentage Partially Vaccinated: {(lastElement.people_vaccinated/lastElement.total_vaccinations * 100).toFixed(0)}%</li>
+                <li> Percentage Fully Vaccinated: {(lastElement.people_fully_vaccinated/lastElement.total_vaccinations * 100).toFixed(0)}%</li>
+                <li> Percentage Boosted: {(lastElement.total_boosters/lastElement.total_vaccinations * 100).toFixed(0)}%</li>
+            </li>
         </div>
     )
 }

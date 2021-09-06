@@ -1,8 +1,60 @@
+.vaccination-background {
+    background-color: #1a1a1a;
+    margin : 0 auto;
+}
+
 .vaccination-title {
-    background-color: red;
+    font-size: 36px;
+    color: #FFF;
     font-style: bold;
     display: grid;
     align-items: center;
     justify-content: center;
+    
+}
 
+.vaccination-graph {
+    height: 50%;
+    width: 90%;
+}
+
+.vaccination-info {
+    font-size: 36px;
+    color: #FFF;
+    font-style: bold;
+    list-style: none;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 40px 0;
+    margin: 0 10px;
+}
+
+
+.vaccination-info :hover {
+    animation: multicolour 1s linear 0s infinite;
+}
+
+li {
+  margin: 0 0 30px 0;
+}
+
+
+
+@keyframes multicolour {
+    from {
+        color: #6666ff;
+      }
+      10% {
+        color: #0099ff;
+      }
+      50% {
+        color: #00ff00;
+      }
+      75% {
+        color: #ff3399;
+      }
+      100% {
+        color: #6666ff;
+      }
 }
