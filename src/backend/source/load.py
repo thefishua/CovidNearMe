@@ -1,6 +1,7 @@
 from covid_testing_clinic import CovidTestingClinic
 from covid import casesActiveNSW, casesActivePerLGA
 from hotspots import JSONHotspotsNSW
+from vaccine import VaccineNSW
 import json
 from time import time
 from os import path
@@ -56,6 +57,21 @@ def loadCovidClinics():
     with open(file_path, "w") as f:
         json.dump(data, f)
     f.close()
+
+# loadVaccine loads all the data from vaccine.py and transfers it to a readible json
+# that is later used in the frontend for the vaccine page
+def loadVaccine():
+    file_path = path.abspath(path.join(BASEPATH, FILEPATH))
+    file_path += "/vaccine.json"
+    data = VaccineNSW()
+    data.to_json(file_path, orient = "records", date_format = "epoch", double_precision = 10, force_ascii = True, date_unit = "ms", default_handler = None)
+    f = open(file_path, "r")
+    data = json.load(f) 
+    f.close()
+    new_data = {"list": data}
+    with open(file_path, "w") as f:
+        json.dump(new_data, f)
+    f.close()
 # def loadPostcodeCases():
 #     file_path = path.abspath(path.join(BASEPATH, FILEPATH))
 #     file_path += "/nsw_postcodes.json"
@@ -72,5 +88,5 @@ def loadCovidClinics():
 #     f.close()
 
 if __name__ == "__main__":
-    loadCovidClinics()
+    loadVaccine()
     # loadPostcodeCases()
