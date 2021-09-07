@@ -40,11 +40,11 @@ function Vaccinations() {
                         <XAxis dataKey="date" ticks={[firstElement.date,midElement.date,lastElement.date]}/>
                         <YAxis dataKey="total_vaccinations" ticks={vaccine['Australian Population']}/>
                         <Tooltip/>
-                        <Legend wrapperStyle={{top: 0}}/>
+                        <Legend wrapperStyle={{top: 0}} />
                         <Line type="monotone" dataKey="total_vaccinations" stroke="#f08e33" activeDot={{ r: 8 }} />
                         <Bar dataKey="people_fully_vaccinated" barSize={20} fill="#8884d8" />
                         <Area type="monotone" dataKey="people_vaccinated" fill="#8884d8" stroke="#8884d8" />
-                        <ReferenceLine y={vaccine['Australian Population'] * 0.8} label="80% of 16+ population" stroke="red" strokeDasharray="3 3" segment={[{ x: lastElement.date, y: lastElement.people_fully_vaccinated }, { x: vaccine['80_people_vaccinated'].date, y: vaccine['80_people_vaccinated'].total_vaccinations }]}/>
+                        <ReferenceLine y={vaccine['Australian Population'] * 0.8} label="80% of 16+ population" stroke="red" strokeDasharray="3 3"/>
                         <ReferenceLine y={vaccine['Australian Population'] * 0.7} label="70% of 16+ population" stroke="red" strokeDasharray="3 3"/>
                     </ComposedChart>
                 </ResponsiveContainer>

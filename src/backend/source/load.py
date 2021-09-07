@@ -10,7 +10,7 @@ from os import path
 CASES = "active_cases"
 FILEPATH = "../../frontend/covid-near-me/src/data/"
 BASEPATH = path.dirname(__file__)
-AUSTRALIA_POPULATION = 25360000
+AUSTRALIA_POPULATION = 25000000
 
 def loadTotalCases():
     data = {}
@@ -81,9 +81,10 @@ def loadVaccine():
     forecast = datetime.strptime(forecast, '%Y-%m-%d')
     while lastElement < AUSTRALIA_POPULATION*0.8:
         forecast += timedelta(days=1)
+        new_data["list"].append({"date": forecast.strftime('%Y-%m-%d')})
         lastElement += diff
     
-    new_data["80_people_vaccinated"] = {"date": forecast.strftime('%Y-%m-%d'), "total_vaccinations": AUSTRALIA_POPULATION * 0.8,}
+    # new_data["list"].append({"date": forecast.strftime('%Y-%m-%d'), "people_fully_vaccinated": AUSTRALIA_POPULATION * 0.8,})
     with open(file_path, "w") as f:
         json.dump(new_data, f)
     f.close()
