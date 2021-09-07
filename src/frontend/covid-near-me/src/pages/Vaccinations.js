@@ -59,14 +59,55 @@ function Vaccinations() {
                             bottom: 10 
                         }}
                     >
-                        <XAxis dataKey="date" ticks={[firstElement.date,midElement.date,lastElement.date]}/>
-                        <YAxis dataKey="total_vaccinations" ticks={vaccine['Australian Population']}/>
-                        <Tooltip content={<CustomTooltip/>}/>
-                        <Legend wrapperStyle={{bottom: -30}} />
-                        <Bar dataKey="people_fully_vaccinated" barSize={20} fill="#8884d8" />
-                        <Area type="monotone" dataKey="people_vaccinated" fill="#8884d8" stroke="#8884d8" />
-                        <ReferenceLine y={vaccine['Australian Population'] * 0.8} label="80% of 16+ population" stroke="red" strokeDasharray="3 3" />
-                        <ReferenceLine y={vaccine['Australian Population'] * 0.7} label="70% of 16+ population" stroke="red" strokeDasharray="3 3" />
+                        <XAxis 
+                            dataKey="date" 
+                            ticks={[firstElement.date,midElement.date,lastElement.date]}
+                        />
+                        <YAxis 
+                            dataKey="total_vaccinations" 
+                            ticks={vaccine['Australian Population']}
+                        />
+                        <Tooltip 
+                            content={<CustomTooltip/>}
+                        />
+                        <Legend 
+                            wrapperStyle={{bottom: -30}}
+                        />
+                        <Bar 
+                            name="Fully Vaccinated" 
+                            dataKey="people_fully_vaccinated" 
+                            barSize={20} 
+                            fill="#8884d8" 
+                        />
+                        <Area 
+                            name="Partially Vaccinated" 
+                            type="monotone" 
+                            dataKey="people_vaccinated" 
+                            fill="#8884d8" 
+                            stroke="#8884d8" 
+                        />
+                        <ReferenceLine 
+                            y={vaccine['Australian Population'] * 0.8} 
+                            label= {{
+                                position: "top",
+                                value: "80% of 16+ population",
+                                fill: "#FFF",
+                                fontSize: "16px"
+                            }}
+                            stroke="red" 
+                            strokeDasharray="3 3" 
+                        />
+                        <ReferenceLine 
+                            y={vaccine['Australian Population'] * 0.7} 
+                            label= {{
+                                position: "top",
+                                value: "70% of 16+ population",
+                                fill: "#FFF",
+                                fontSize: "16px"
+                            }}
+                            stroke="red" 
+                            strokeDasharray="3 3" 
+                        />
                     </ComposedChart>
                 </ResponsiveContainer>
             </div>
