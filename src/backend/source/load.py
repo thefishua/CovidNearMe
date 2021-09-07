@@ -73,21 +73,10 @@ def loadVaccine():
     f.close()
     new_data = {"list": data}
     new_data["Australian Population"] = AUSTRALIA_POPULATION
-    
-    secondLastElement = new_data["list"][len(new_data["list"]) - 2]["people_fully_vaccinated"]
-    lastElement = new_data["list"][len(new_data["list"]) - 1]["people_fully_vaccinated"]
-    diff = lastElement - secondLastElement
-    forecast = new_data["list"][len(new_data["list"]) - 1]["date"]
-    forecast = datetime.strptime(forecast, '%Y-%m-%d')
-    while lastElement < AUSTRALIA_POPULATION*0.8:
-        forecast += timedelta(days=1)
-        new_data["list"].append({"date": forecast.strftime('%Y-%m-%d')})
-        lastElement += diff
-    
-    # new_data["list"].append({"date": forecast.strftime('%Y-%m-%d'), "people_fully_vaccinated": AUSTRALIA_POPULATION * 0.8,})
     with open(file_path, "w") as f:
         json.dump(new_data, f)
     f.close()
+
 # def loadPostcodeCases():
 #     file_path = path.abspath(path.join(BASEPATH, FILEPATH))
 #     file_path += "/nsw_postcodes.json"

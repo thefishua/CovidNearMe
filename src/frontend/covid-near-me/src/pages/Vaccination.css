@@ -14,6 +14,12 @@
     
 }
 
+.custom-tooltip {
+    background-color: #FFF;
+    padding: 2px 8px 2px 8px;
+    border-radius: 25px;
+}
+
 .vaccination-graph {
     height: 100%;
     width: 100%;
