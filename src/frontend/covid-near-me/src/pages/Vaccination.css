@@ -10,12 +10,13 @@
     display: grid;
     align-items: center;
     justify-content: center;
+    padding-bottom: 50px;
     
 }
 
 .vaccination-graph {
-    height: 50%;
-    width: 90%;
+    height: 100%;
+    width: 100%;
 }
 
 .vaccination-info {

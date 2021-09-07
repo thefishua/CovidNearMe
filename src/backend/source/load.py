@@ -2,12 +2,15 @@ from covid_testing_clinic import CovidTestingClinic
 from covid import casesActiveNSW, casesActivePerLGA
 from hotspots import JSONHotspotsNSW
 from vaccine import VaccineNSW
+from datetime import timedelta
+from datetime import datetime
 import json
 from time import time
 from os import path
 CASES = "active_cases"
 FILEPATH = "../../frontend/covid-near-me/src/data/"
 BASEPATH = path.dirname(__file__)
+AUSTRALIA_POPULATION = 25360000
 
 def loadTotalCases():
     data = {}
@@ -69,6 +72,18 @@ def loadVaccine():
     data = json.load(f) 
     f.close()
     new_data = {"list": data}
+    new_data["Australian Population"] = AUSTRALIA_POPULATION
+    
+    secondLastElement = new_data["list"][len(new_data["list"]) - 2]["people_fully_vaccinated"]
+    lastElement = new_data["list"][len(new_data["list"]) - 1]["people_fully_vaccinated"]
+    diff = lastElement - secondLastElement
+    forecast = new_data["list"][len(new_data["list"]) - 1]["date"]
+    forecast = datetime.strptime(forecast, '%Y-%m-%d')
+    while lastElement < AUSTRALIA_POPULATION*0.8:
+        forecast += timedelta(days=1)
+        lastElement += diff
+    
+    new_data["80_people_vaccinated"] = {"date": forecast.strftime('%Y-%m-%d'), "total_vaccinations": AUSTRALIA_POPULATION * 0.8,}
     with open(file_path, "w") as f:
         json.dump(new_data, f)
     f.close()
