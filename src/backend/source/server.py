@@ -25,7 +25,7 @@ def defaultHandler(err):
     response.content_type = 'application/json'
     return response
 
-APP = Flask(__name__, static_url_path='', static_folder='build/')
+APP = Flask(__name__, static_url_path='', static_folder='../../frontend/covid-near-me/build')
 APP.config['TRAP_HTTP_EXCEPTIONS'] = True
 APP.register_error_handler(Exception, defaultHandler)
 CORS(APP)
