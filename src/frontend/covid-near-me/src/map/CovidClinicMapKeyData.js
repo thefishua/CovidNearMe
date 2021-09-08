@@ -2,11 +2,9 @@ import React from 'react'
 import * as FcIcons from "react-icons/fc"
 
 const KeySyle = {
-    backgroundColor: 'red',
-    paddingTop: 30,
-    minHeight: 10,
-    display: 'table-cell',
-    verticalAlign: "middle",
+    transform: "translate(0, -10%)",
+    padding: "15 0 15 0",
+    
 }
 
 export const MapKeyData = [

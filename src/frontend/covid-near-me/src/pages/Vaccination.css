@@ -1,0 +1,80 @@
+.vaccination-background {
+    background-color: #1a1a1a;
+    margin : 0 auto;
+}
+
+.vaccination-title {
+    font-size: 36px;
+    color: #FFF;
+    font-style: bold;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    
+}
+
+.custom-tooltip {
+    background-color: #FFF;
+    padding: 2px 8px 2px 8px;
+    border-radius: 25px;
+}
+
+.vaccination-graph {
+    height: 100%;
+    width: 100%;
+    padding: 8px 8px 8px 8px;
+}
+
+.vaccination-info {
+    font-size: 24px;
+    color: #FFF;
+    font-style: bold;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px 0px 20px 0px;
+    width: 75%;
+}
+
+.vaccination-number {
+    font-size: 36px;
+    color: #5f57cf;
+    display: inline;
+    font-style: bold;
+}
+
+.vaccination-book {
+  font-size: 24px;
+  color: #FFF;
+  font-style: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vaccination-link {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+}
+
+.vaccination-link:link {
+  color: #8884d8;
+}
+
+.vaccination-link:visited {
+  color: #8884d8;
+}
+
+.vaccination-link:focus {
+  color: #8884d8;
+}
+
+.vaccination-link:hover {
+  color: #5f57cf;
+}
+
+.vaccination-link:active {
+  color: #8884d8;
+}
