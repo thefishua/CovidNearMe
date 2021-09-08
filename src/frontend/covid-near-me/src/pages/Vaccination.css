@@ -10,7 +10,7 @@
     display: grid;
     align-items: center;
     justify-content: center;
-    padding-bottom: 50px;
+    padding-bottom: 10px;
     
 }
 
@@ -23,45 +23,58 @@
 .vaccination-graph {
     height: 100%;
     width: 100%;
+    padding: 8px 8px 8px 8px;
 }
 
 .vaccination-info {
-    font-size: 36px;
+    font-size: 24px;
     color: #FFF;
     font-style: bold;
-    list-style: none;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    padding: 0 0 40px 0;
-    margin: 0 10px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px 0px 20px 0px;
+    width: 75%;
 }
 
-
-.vaccination-info :hover {
-    animation: multicolour 1s linear 0s infinite;
+.vaccination-number {
+    font-size: 36px;
+    color: #5f57cf;
+    display: inline;
+    font-style: bold;
 }
 
-li {
-  margin: 0 0 30px 0;
+h3 {
+  font-size: 24px;
+  color: #FFF;
+  font-style: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.vaccination-link {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+}
 
+.vaccination-link:link {
+  color: #8884d8;
+}
 
-@keyframes multicolour {
-    from {
-        color: #6666ff;
-      }
-      10% {
-        color: #0099ff;
-      }
-      50% {
-        color: #00ff00;
-      }
-      75% {
-        color: #ff3399;
-      }
-      100% {
-        color: #6666ff;
-      }
+.vaccination-link:visited {
+  color: #8884d8;
+}
+
+.vaccination-link:focus {
+  color: #8884d8;
+}
+
+.vaccination-link:hover {
+  color: #5f57cf;
+}
+
+.vaccination-link:active {
+  color: #8884d8;
 }

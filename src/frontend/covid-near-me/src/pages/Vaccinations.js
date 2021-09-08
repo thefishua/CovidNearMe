@@ -43,11 +43,11 @@ function Vaccinations() {
     return (
         <div className="vaccination-background">
             <div className="vaccination-title">
-                Vaccination
+                Vaccinations
             </div>
-            <div>
-                
-            </div>
+            <h3>
+                Book a Vaccination: <a className="vaccination-link" href="https://covid-vaccine.healthdirect.gov.au/eligibility?lang=en" target='_blank' rel="noreferrer">Here</a>
+            </h3>
             <div className="vaccination-graph">
                 <ResponsiveContainer width="90%" height="90%" aspect={3}>
                     <ComposedChart
@@ -71,7 +71,7 @@ function Vaccinations() {
                             content={<CustomTooltip/>}
                         />
                         <Legend 
-                            wrapperStyle={{bottom: -30}}
+                            wrapperStyle={{bottom: -20}}
                         />
                         <Bar 
                             name="Fully Vaccinated" 
@@ -111,23 +111,14 @@ function Vaccinations() {
                     </ComposedChart>
                 </ResponsiveContainer>
             </div>
-            <li className="vaccination-info">
-                <li> 
-                    Australian Population: {vaccine['Australian Population']} People
-                </li>
-                <li> 
-                    Total Vaccinations: {lastElement.total_vaccinations} People
-                </li>
-                <li> 
-                    Percentage Partially Vaccinated: {(lastElement.people_vaccinated/lastElement.total_vaccinations * 100).toFixed(0)}%
-                </li>
-                <li> 
-                    Percentage Fully Vaccinated: {(lastElement.people_fully_vaccinated/lastElement.total_vaccinations * 100).toFixed(0)}%
-                </li>
-                <li> 
-                    Percentage Boosted: {(lastElement.total_boosters/lastElement.total_vaccinations * 100).toFixed(0)}%
-                </li>
-            </li>
+            <div className="vaccination-info">
+                    The number of Australians that are fully vaccinated is currently <div className="vaccination-number">{(lastElement.people_fully_vaccinated/lastElement.total_vaccinations * 100).toFixed(0)}% </div> 
+                    of the Australian population. The federal government's <a className="vaccination-link" href="https://www.theguardian.com/news/datablog/2021/feb/28/is-australias-goal-of-vaccinating-the-entire-adult-population-by-october-achievable" target='_blank' rel="noreferrer"> original rollout goal </a> 
+                    has turned towards a <div className="vaccination-number">70%</div> and <div className="vaccination-number">80%</div> vaccination threshold for returning to ordinary life.
+                    Currently there is a total of <div className="vaccination-number"> {lastElement.total_vaccinations} </div> people vaccinated with <div className="vaccination-number">{(lastElement.people_vaccinated/lastElement.total_vaccinations * 100).toFixed(0)}% </div> of these people partially 
+                    vaccinated and <div className="vaccination-number"> {(lastElement.people_fully_vaccinated/lastElement.total_vaccinations * 100).toFixed(0)}% </div> fully vaccinated.
+                    Whereas, the percentage of people that have been adminstrated boosters is <div className="vaccination-number"> {(lastElement.total_boosters/lastElement.total_vaccinations * 100).toFixed(0)}%</div>.
+            </div>
         </div>
     )
 }
