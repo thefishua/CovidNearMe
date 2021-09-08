@@ -5,7 +5,7 @@ from os import path
 from time import time
 from flask_cors import CORS
 
-from load import loadLGACases
+import load
 
 
 FILEPATH = "../../frontend/covid-near-me/src/data/"
@@ -25,7 +25,7 @@ def defaultHandler(err):
     response.content_type = 'application/json'
     return response
 
-APP = Flask(__name__)
+APP = Flask(__name__, static_url_path='', static_folder='frontend/build')
 APP.config['TRAP_HTTP_EXCEPTIONS'] = True
 APP.register_error_handler(Exception, defaultHandler)
 CORS(APP)
@@ -42,14 +42,18 @@ def get_json():
     f = open(LGA_FILE, "r")
     data = json.load(f)
     if abs(data["timestamp"] - time()) > 3600:
-        data = loadLGACases()
+        data = load.loadLGACases()
     return json.dumps(data)
 
 @APP.route("/update-active", methods=["GET"])
 def update():
     ret = {}
     ret["success"] = False
-    data = loadLGACases()
+    data = load.loadLGACases()
+    load.loadTotalCases()
+    load.loadHotspots()
+    load.loadCovidClinics()
+    load.loadVaccine()
     if abs(data["timestamp"] - time()) < 180:
         ret["success"] = True
     return json.dumps(ret)

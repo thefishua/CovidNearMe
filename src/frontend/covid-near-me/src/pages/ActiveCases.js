@@ -222,17 +222,6 @@ function ActiveCases() {
                             onClick={(e) =>{
                                 e.preventDefault()
                                 setSelectedMarker(cluster)
-                                const expansionZoom = 13.5
-                                        setViewport({
-                                            ...viewport,
-                                            latitude,
-                                            longitude,
-                                            zoom: expansionZoom,
-                                            transitionInterpolator: new FlyToInterpolator({
-                                                speed: 2,
-                                            }), 
-                                            transitionDuration : "auto"
-                                        });
                             }}
                         >
                             <img src={LgaMarker(cluster.properties.active_cases)} alt="Marker"/>
