@@ -45,7 +45,7 @@ function Vaccinations() {
             <div className="vaccination-title">
                 Vaccinations
             </div>
-            <h3>
+            <h3 className="vaccination-book">
                 Book a Vaccination: <a className="vaccination-link" href="https://covid-vaccine.healthdirect.gov.au/eligibility?lang=en" target='_blank' rel="noreferrer">Here</a>
             </h3>
             <div className="vaccination-graph">
