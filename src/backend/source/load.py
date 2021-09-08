@@ -94,4 +94,8 @@ def loadVaccine():
 
 if __name__ == "__main__":
     loadVaccine()
+    loadTotalCases()
+    loadHotspots()
+    loadLGACases()
+    loadCovidClinics()
     # loadPostcodeCases()
