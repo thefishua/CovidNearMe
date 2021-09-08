@@ -8,7 +8,7 @@ import MapKey from "../map/MapKey";
 import "../index.css";
 import "../mapbox-gl.css"
 
-const url = "http://localhost:8080/update-active";
+const url = "https://covid-near-me.herokuapp.com/"
 
 function ActiveCases() {
     // Container for the mapbox 
