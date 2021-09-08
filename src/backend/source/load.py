@@ -72,5 +72,8 @@ def loadCovidClinics():
 #     f.close()
 
 if __name__ == "__main__":
+    loadTotalCases()
+    loadHotspots()
+    loadLGACases()
     loadCovidClinics()
     # loadPostcodeCases()
