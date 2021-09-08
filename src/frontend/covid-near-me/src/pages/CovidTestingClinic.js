@@ -1,5 +1,6 @@
 import React, {useState, useEffect}from 'react'
 import ReactMapGL, {Marker, Popup, GeolocateControl, NavigationControl} from "react-map-gl";
+import * as FcIcons from "react-icons/fc";
 import * as clinic from "../data/covid_testing_clinic.json"
 import {MapKeyData} from '../map/CovidClinicMapKeyData'
 import MapKey from "../map/MapKey";
