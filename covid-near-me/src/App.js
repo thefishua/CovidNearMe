@@ -12,7 +12,7 @@ export default function App() {
             <SideBar/>
                  <Switch>
                     <Route path='/' exact component={ActiveCases}/>
-                    <Route path='/vaccination' component={Vaccinations}/>
+                    <Route path='/vaccines' component={Vaccinations}/>
                     <Route path='/testing' component={CovidTestingCentre}/>
                     <Route path='/hotspots' component={Hotspots}/>
                 </Switch>

@@ -14,6 +14,8 @@ import {
 } from 'recharts';
 import "./Vaccination.css"
 
+
+
 // Elements of vaccine from json file
 var lastElement = vaccine.list[vaccine.list.length - 1]
 var midElement = vaccine.list[vaccine.list.length/2]

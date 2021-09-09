@@ -9,7 +9,7 @@ import backend.source.load as load
 
 
 FILEPATH = "backend/data/"
-FILEPATH_RUN = "../../covid-near-me/build"
+FILEPATH_RUN = "/covid-near-me/build"
 BASEPATH = path.dirname(__file__)
 LGA_FILE = path.abspath(path.join(BASEPATH, FILEPATH)) + "/nsw_lga.json"
 HOTSPOT_FILE = path.abspath(path.join(BASEPATH, FILEPATH)) + "/hotspots.json"
@@ -33,10 +33,20 @@ def defaultHandler(err):
     response.content_type = 'application/json'
     return response
 
-APP = Flask(__name__,static_folder=RUN, static_url_path = '')
+APP = Flask(__name__,static_folder="covid-near-me/build", static_url_path = '/')
 APP.config['TRAP_HTTP_EXCEPTIONS'] = True
 APP.register_error_handler(Exception, defaultHandler)
 CORS(APP)
+
+@APP.route('/')
+def index():
+    return APP.send_static_file('index.html')
+
+@APP.route("/<path:path>")
+def static_file(path):
+    return APP.send_static_file(path)
+
+
 
 @APP.route("/echo", methods=['GET'])
 @cross_origin()
@@ -46,7 +56,7 @@ def echo():
         'data': data
     })
 
-@APP.route("/active", methods=["GET"])
+@APP.route("/api/active", methods=["GET"])
 @cross_origin()
 def get_json():
     f = open(LGA_FILE, "r")
@@ -55,7 +65,7 @@ def get_json():
         data = load.loadLGACases()
     return json.dumps(data)
 
-@APP.route("/hotspots", methods=["GET"])
+@APP.route("/api/hotspots", methods=["GET"])
 @cross_origin()
 def get_hotspots():
     f = open(HOTSPOT_FILE, "r")
@@ -64,7 +74,7 @@ def get_hotspots():
         data = load.loadHotspots()
     return json.dumps(data)
 
-@APP.route("/clinics", methods=["GET"])
+@APP.route("/api/clinics", methods=["GET"])
 @cross_origin()
 def get_clinics():
     f = open(CLINIC_FILE, "r")
@@ -73,7 +83,7 @@ def get_clinics():
         data = load.loadCovidClinics()
     return json.dumps(data)
 
-@APP.route("/vaccination", methods=["GET"])
+@APP.route("/api/vaccination", methods=["GET"])
 @cross_origin()
 def get_vaccine():
     f = open(VACCINE_FILE, "r")
@@ -82,7 +92,7 @@ def get_vaccine():
         data = load.loadVaccine()
     return json.dumps(data)
 
-@APP.route("/update", methods=["GET"])
+@APP.route("/api/update", methods=["GET"])
 @cross_origin()
 def update():
     ret = {}

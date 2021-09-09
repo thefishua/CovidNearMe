@@ -4,6 +4,9 @@ import * as hotspot from "../data/hotspots.json"
 import {MapKeyData} from '../map/HotspotsMapKeyData'
 import MapKey from "../map/MapKey";
 import './Hotspots.css'
+
+
+
 function Hotspots() {
     // Container for the mapbox 
     const [viewport, setViewport] = useState({

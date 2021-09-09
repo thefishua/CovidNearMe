@@ -5,6 +5,8 @@ import * as clinic from "../data/covid_testing_clinic.json"
 import {MapKeyData} from '../map/CovidClinicMapKeyData'
 import MapKey from "../map/MapKey";
 import "./CovidTestingClinic.css"
+
+
 function CovidTestingClinic() {
     // Array of days of the week to show the relevant time a clinic is open on a certain day
     const day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
