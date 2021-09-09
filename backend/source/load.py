@@ -1,14 +1,14 @@
-from covid_testing_clinic import CovidTestingClinic
-from covid import casesActiveNSW, casesActivePerLGA
-from hotspots import JSONHotspotsNSW
-from vaccine import VaccineNSW
+from backend.source.covid_testing_clinic import CovidTestingClinic
+from backend.source.covid import casesActiveNSW, casesActivePerLGA
+from backend.source.hotspots import JSONHotspotsNSW
+from backend.source.vaccine import VaccineNSW
 from datetime import timedelta
 from datetime import datetime
 import json
 from time import time
 from os import path
 CASES = "active_cases"
-FILEPATH = "../../frontend/covid-near-me/src/data/"
+FILEPATH = "../data"
 BASEPATH = path.dirname(__file__)
 AUSTRALIA_POPULATION = 25000000
 
@@ -46,9 +46,11 @@ def loadHotspots():
     data = json.load(f) 
     f.close()
     data = JSONHotspotsNSW()
+    data["timestamp"] = time()
     with open(file_path, "w") as f:
         json.dump(data, f)
     f.close()
+    return data
 
 def loadCovidClinics():
     file_path = path.abspath(path.join(BASEPATH, FILEPATH))
@@ -57,9 +59,11 @@ def loadCovidClinics():
     data = json.load(f) 
     f.close()
     data = CovidTestingClinic()
+    data["timestamp"] = time()
     with open(file_path, "w") as f:
         json.dump(data, f)
     f.close()
+    return data
 
 # loadVaccine loads all the data from vaccine.py and transfers it to a readible json
 # that is later used in the frontend for the vaccine page
@@ -73,9 +77,11 @@ def loadVaccine():
     f.close()
     new_data = {"list": data}
     new_data["Australian Population"] = AUSTRALIA_POPULATION
+    new_data["timestamp"] = time()
     with open(file_path, "w") as f:
         json.dump(new_data, f)
     f.close()
+    return new_data
 
 # def loadPostcodeCases():
 #     file_path = path.abspath(path.join(BASEPATH, FILEPATH))
