@@ -39,13 +39,14 @@ APP.register_error_handler(Exception, defaultHandler)
 CORS(APP)
 
 @APP.route('/')
+@cross_origin()
 def index():
     return APP.send_static_file('index.html')
 
 @APP.route("/<path:path>")
+@cross_origin()
 def static_file(path):
     return APP.send_static_file(path)
-
 
 
 @APP.route("/echo", methods=['GET'])
