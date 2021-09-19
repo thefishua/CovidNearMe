@@ -62,8 +62,8 @@ def echo():
 def get_json():
     f = open(LGA_FILE, "r")
     data = json.load(f)
-    if abs(data["timestamp"] - time()) > 3600:
-        data = load.loadLGACases()
+    # if abs(data["timestamp"] - time()) > 3600:
+    #     data = load.loadLGACases()
     return json.dumps(data)
 
 @APP.route("/api/hotspots", methods=["GET"])

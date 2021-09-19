@@ -1,15 +1,18 @@
 import React, {useState, useEffect, useRef} from "react";
 import ReactMapGL, {FlyToInterpolator, Marker, Popup, GeolocateControl, NavigationControl} from "react-map-gl";
-import * as lga from "../data/nsw_lga.json"
+//import * as lga from "../data/nsw_lga.json"
 import useSupercluster from "use-supercluster";
 import {MapKeyData} from '../map/ActiveCaseMapKeyData'
 import MapKey from "../map/MapKey";
+import useSwr from "swr";
 
 
 import "../index.css";
 import "../mapbox-gl.css"
 
-const url = "https://covid-near-me.herokuapp.com/"
+const fetcher = (...args) => fetch(...args).then(response => response.json());
+
+const url = "https://covid-near-me.herokuapp.com/api/active"
 
 function ActiveCases() {
     // Container for the mapbox 
@@ -64,13 +67,10 @@ function ActiveCases() {
         return "/mapbox-marker-icon-green.svg";
     }
 
-    useEffect(()=> {
-        const now = Math.floor(Date.now() / 1000)
-        if (Math.abs(lga.timestamp - now) > 3600) {
-            console.log(Math.abs(lga.timestamp - now))
-            fetch(url);
-        }
-    }, [])
+    const { data, error } = useSwr(url, { fetcher });
+    const lga = data && !error ? data.slice(0, 2000) : [];
+    console.log(lga);
+    
 
 
     const mapRef = useRef();
