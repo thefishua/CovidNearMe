@@ -114,7 +114,7 @@ function Vaccinations() {
                 </ResponsiveContainer>
             </div>
             <div className="vaccination-info">
-                    The number of Australians that are fully vaccinated is currently <div className="vaccination-number">{(lastElement.people_fully_vaccinated/lastElement.total_vaccinations * 100).toFixed(0)}% </div> 
+                    The number of Australians that are fully vaccinated is currently <div className="vaccination-number">{(lastElement.people_fully_vaccinated/vaccine['Australian Population'] * 100).toFixed(0)}% </div> 
                     of the Australian population. The federal government's <a className="vaccination-link" href="https://www.theguardian.com/news/datablog/2021/feb/28/is-australias-goal-of-vaccinating-the-entire-adult-population-by-october-achievable" target='_blank' rel="noreferrer"> original rollout goal </a> 
                     has turned towards a <div className="vaccination-number">70%</div> and <div className="vaccination-number">80%</div> vaccination threshold for returning to ordinary life.
                     Currently there is a total of <div className="vaccination-number"> {lastElement.total_vaccinations} </div> people vaccinated with <div className="vaccination-number">{(lastElement.people_vaccinated/lastElement.total_vaccinations * 100).toFixed(0)}% </div> of these people partially 
