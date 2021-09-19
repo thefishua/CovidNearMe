@@ -4,13 +4,13 @@ import ReactMapGL, {FlyToInterpolator, Marker, Popup, GeolocateControl, Navigati
 import useSupercluster from "use-supercluster";
 import {MapKeyData} from '../map/ActiveCaseMapKeyData'
 import MapKey from "../map/MapKey";
-import useSwr from "swr";
-
+//import useSwr from "swr";
+import axios from "axios";
 
 import "../index.css";
 import "../mapbox-gl.css"
 
-const fetcher = (...args) => fetch(...args).then(response => response.json());
+// const fetcher = (...args) => await fetch(...args).then(response => await response.json());
 
 const url = "https://covid-near-me.herokuapp.com/api/active"
 
@@ -67,12 +67,22 @@ function ActiveCases() {
         return "/mapbox-marker-icon-green.svg";
     }
 
-    const { data, error } = useSwr(url, { fetcher });
-    const lga = data && !error ? data.slice(0, 2000) : [];
-    console.log(lga);
+    //const { data, error } = useSwr(url, { fetcher });
+    //const lga = data && !error ? data.slice(0, 2000) : [];
     
+    async function getMeData() {
+        await axios.get(url)
+        .then((response) => {
+            console.log(response.data);
+            const lga = response.data;
+            return lga;
+        })
+        .catch((err) => { })
+        
+    }
 
-
+    const lga = getMeData();
+    console.log(lga);
     const mapRef = useRef();
     
     // This defines all the points on the map
