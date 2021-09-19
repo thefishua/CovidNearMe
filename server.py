@@ -80,8 +80,8 @@ def get_hotspots():
 def get_clinics():
     f = open(CLINIC_FILE, "r")
     data = json.load(f)
-    if abs(data["timestamp"] - time()) > 3600:
-        data = load.loadCovidClinics()
+    # if abs(data["timestamp"] - time()) > 3600:
+    #     data = load.loadCovidClinics()
     return json.dumps(data)
 
 @APP.route("/api/vaccination", methods=["GET"])
